@@ -10,7 +10,12 @@ and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extens
 
 ```
 pip install bokeh
+
+# run locally (button won't work)
 python jsmol.py
+
+# run using bokeh server (button should work)
+bokeh serve jsmol.py
 ```
 
 ## Links
