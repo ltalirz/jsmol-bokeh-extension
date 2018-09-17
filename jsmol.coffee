@@ -11,11 +11,13 @@ import {LayoutDOM, LayoutDOMView} from "models/layouts/layout_dom"
 # See https://gist.github.com/jhjensen2/4701339 for more details.
 
 Info =
-  width: 300,
-  height: 300,
+  height: "100%"
+  width: "100%"
   serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php"
-  use: "HTML5",
-  j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s",
+  use: "HTML5"
+  j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s"
+  disableInitialConsole: false
+  allowJavaScript: true
   console: "jmolApplet0_infodiv"
 
 #INFO =
@@ -52,6 +54,10 @@ export class JSMolView extends LayoutDOMView
     script.async = false
     script.onreadystatechange = script.onload = () => @_init()
     document.querySelector("head").appendChild(script)
+     
+    div = document.createElement('div')
+    div.id = "jmolApplet0_infodiv"
+    document.querySelector("body").appendChild(div)
 
   _init: () ->
     # Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
@@ -62,13 +68,26 @@ export class JSMolView extends LayoutDOMView
     # Bokeh views ignore this default <div>, and instead do things like draw
     # to the HTML canvas. In this case though, we use the <div> to attach a
     # Graph3d to the DOM.
-    @_graph = new Jmol.getApplet("jmolApplet0", Info)
-    Jmol.script(@_graph,"background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download")
+    # Note: In coffescript, "@foo" is shorthand for "this.foo"
+
+    # Prevent jmol from directly inserting into the page
+    #Jmol.setDocument(0)
+    Jmol.getApplet("jmolApplet0", Info)
+     
+    Jmol.script(jmolApplet0,"background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download")
+    @el.innerHTML = Jmol.getAppletHtml(jmolApplet0)
+    @_applet = jmolApplet0
 
     # Set a listener so that when the Bokeh data source has a change
     # event, we can process the new data
     @connect(@model.data_source.change, () =>
-        @_graph.setData(@get_data())
+        @_applet.setData(@get_data())
+    )
+     
+    # Set a listener so that when the Bokeh script input changes it is executed
+    @connect(@model.info_source.change, () =>
+        console.log "Info source chaged"
+        Jmol.script(@_graph, @model.info_source.x[0])
     )
 
   # This is the callback executed when the Bokeh data has an change. Its basic
@@ -106,6 +125,9 @@ export class JSMol extends LayoutDOM
     x:           [ p.String           ]
     y:           [ p.String           ]
     z:           [ p.String           ]
+    script:      [ p.String           ]
+    info_source: [ p.Instance         ]
+    #info:        [ p.Dict             ]
     data_source: [ p.Instance         ]
   }
 

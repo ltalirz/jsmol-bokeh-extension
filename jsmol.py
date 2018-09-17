@@ -2,9 +2,11 @@ from __future__ import division
 
 import numpy as np
 
-from bokeh.core.properties import Instance, String
-from bokeh.models import ColumnDataSource, LayoutDOM
-from bokeh.io import show
+from bokeh.core.properties import Instance, Dict, String
+from bokeh.models import ColumnDataSource, DataSource, LayoutDOM
+from bokeh.io import show, curdoc
+from bokeh.models.widgets import Button
+from bokeh.layouts import layout, widgetbox
 
 with open('jsmol.coffee', 'r') as f:
   JS_CODE = f.read()
@@ -32,6 +34,13 @@ class JSMol(LayoutDOM):
     # server by Python code
     data_source = Instance(ColumnDataSource)
 
+    # This is a Bokeh Dict linked to the JSMol "Info"
+    #info = Dict
+    info_source = Instance(ColumnDataSource)
+
+    # This is a Bokeh String that can be used to directly pass commands to "Jmol.script"
+    #script = String
+
     # The vis.js library that we are wrapping expects data for x, y, and z.
     # The data will actually be stored in the ColumnDataSource, but these
     # properties let us specify the *name* of the column that should be
@@ -50,7 +59,17 @@ yy = yy.ravel()
 value = np.sin(xx/50) * np.cos(yy/50) * 50 + 50
 
 source = ColumnDataSource(data=dict(x=xx, y=yy, z=value))
+info_source = ColumnDataSource()
 
-surface = JSMol(x="x", y="y", z="z", data_source=source, width=600, height=600)
+surface = JSMol(x="x", y="y", z="z", data_source=source, width=600, height=600,
+       info_source=info_source)
 
-show(surface)
+button = Button(label='White background')
+def white():
+    info_source.data = dict(x=["background white;"])
+button.on_click(white)
+
+l = layout( [ surface, widgetbox(button) ] )
+
+show(l)
+curdoc().add_root(l)
