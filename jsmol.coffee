@@ -76,6 +76,10 @@ export class JSMolView extends LayoutDOMView
     @el.innerHTML = html
     @_applet = jmolApplet0
 
+    # avoid creating a "deferred" applet
+    # https://sourceforge.net/p/jsmol/discussion/general/thread/48083aa7/#10a6/bc1c
+    @_applet._cover(false)
+
     # Set a listener so that when the Bokeh data source has a change
     # event, we can process the new data
     @connect(@model.data_source.change, () =>
