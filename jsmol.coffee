@@ -52,10 +52,6 @@ export class JSMolView extends LayoutDOMView
     script.onreadystatechange = script.onload = () => @_init()
     document.querySelector("head").appendChild(script)
      
-    div = document.createElement('div')
-    div.id = "jmolApplet0_infodiv"
-    document.querySelector("body").appendChild(div)
-
   _init: () ->
     # Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
     # already been loaded (e.g. in a custom app template). In the future Bokeh
@@ -89,7 +85,7 @@ export class JSMolView extends LayoutDOMView
     # Set a listener so that when the Bokeh script input changes it is executed
     @connect(@model.info_source.change, () =>
         console.log "Info source chaged"
-        Jmol.script(@_graph, @model.info_source.x[0])
+        Jmol.script(@_applet, @model.info_source.get_column(@model.x)[0])
     )
 
   # This is the callback executed when the Bokeh data has an change. Its basic
