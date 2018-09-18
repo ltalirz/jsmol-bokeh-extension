@@ -16,25 +16,8 @@ Info =
   serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php"
   use: "HTML5"
   j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s"
-
-#INFO =
-#
-#
-#   width: '100%',
-#   height: '100%',
-#   debug: false,
-#   color: "0xFFFFFF",
-#   use: "HTML5",   // JAVA HTML5 WEBGL are all options
-#   j2sPath: "{{server_prefix}}/static/jmol/j2s", // this needs to point to where the j2s directory is.
-#   jarPath: "{{server_prefix}}/static/jmol/java",// this needs to point to where the java directory is.
-#   jarFile: "JmolAppletSigned.jar",
-#   isSigned: true,
-#   script: "set antialiasDisplay; set frank off; load {{server_prefix}}/static/{{appname}}-structures/set.000000.xyz; {{jmolsettings}}" ,
-#   serverURL: "./jmol/php/jsmol.php",
-#   readyFunction: jmol_isReady,
-#   disableJ2SLoadMonitor: true,
-#   disableInitialConsole: true,
-#   allowJavaScript: true
+  script: "background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download"
+  #disableJ2SLoadMonitor: true
 
 # To create custom model extensions that will render on to the HTML canvas
 # or into the DOM, we must create a View subclass for the model.
@@ -54,23 +37,15 @@ export class JSMolView extends LayoutDOMView
      
   _init: () ->
     # Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
-    # already been loaded (e.g. in a custom app template). In the future Bokeh
+    # already been loaded.
     # models will be able to specify and load external scripts automatically.
     #
-    # BokehJS Views create <div> elements by default, accessible as @el. Many
-    # Bokeh views ignore this default <div>, and instead do things like draw
-    # to the HTML canvas. In this case though, we use the <div> to attach a
-    # Graph3d to the DOM.
+    # BokehJS Views create <div> elements by default, accessible as @el.
     # Note: In coffescript, "@foo" is shorthand for "this.foo"
 
-    # Prevent jmol from directly inserting into the page
-    #Jmol.setDocument(0)
     html = Jmol.getAppletHtml("jmolApplet0", Info)
-    #Jmol.getApplet("jmolApplet0", Info)
-     
-    Jmol.script(jmolApplet0,"background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download")
-    @el.innerHTML = html
     @_applet = jmolApplet0
+    @el.innerHTML = html
 
     # avoid creating a "deferred" applet
     # https://sourceforge.net/p/jsmol/discussion/general/thread/48083aa7/#10a6/bc1c

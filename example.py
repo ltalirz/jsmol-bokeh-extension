@@ -1,6 +1,6 @@
 from bokeh.models import ColumnDataSource
 from bokeh.io import show, curdoc
-from bokeh.models.widgets import Button
+from bokeh.models.widgets import Button, TextInput
 from bokeh.layouts import layout, widgetbox
 
 from jsmol import JSMol
@@ -17,16 +17,17 @@ surface = JSMol(
     height=600,
     info_source=info_source)
 
-button = Button(label='White background')
+button = Button(label='Execute')
+inp_script = TextInput(value='background white;')
 
 
 def white():
-    info_source.data = dict(x=["background white;"])
+    info_source.data = dict(x=[inp_script.value])
 
 
 button.on_click(white)
 
-ly = layout([surface, widgetbox(button)])
+ly = layout([surface, widgetbox(button, inp_script)])
 
 show(ly)
 curdoc().add_root(ly)
