@@ -1,15 +1,9 @@
-from __future__ import division
-
-import numpy as np
-
-from bokeh.core.properties import Instance, Dict, String
-from bokeh.models import ColumnDataSource, DataSource, LayoutDOM
-from bokeh.io import show, curdoc
-from bokeh.models.widgets import Button
-from bokeh.layouts import layout, widgetbox
+from bokeh.core.properties import Instance, String
+from bokeh.models import ColumnDataSource, LayoutDOM
 
 with open('jsmol.coffee', 'r') as f:
-  JS_CODE = f.read()
+    JS_CODE = f.read()
+
 
 # This custom extension model will have a DOM view that should layout-able in
 # Bokeh layouts, so use ``LayoutDOM`` as the base class. If you wanted to create
@@ -50,26 +44,3 @@ class JSMol(LayoutDOM):
     y = String
 
     z = String
-
-x = np.arange(0, 300, 10)
-y = np.arange(0, 300, 10)
-xx, yy = np.meshgrid(x, y)
-xx = xx.ravel()
-yy = yy.ravel()
-value = np.sin(xx/50) * np.cos(yy/50) * 50 + 50
-
-source = ColumnDataSource(data=dict(x=xx, y=yy, z=value))
-info_source = ColumnDataSource()
-
-surface = JSMol(x="x", y="y", z="z", data_source=source, width=600, height=600,
-       info_source=info_source)
-
-button = Button(label='White background')
-def white():
-    info_source.data = dict(x=["background white;"])
-button.on_click(white)
-
-l = layout( [ surface, widgetbox(button) ] )
-
-show(l)
-curdoc().add_root(l)

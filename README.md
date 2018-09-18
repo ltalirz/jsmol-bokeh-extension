@@ -14,10 +14,10 @@ cd jsmol-bokeh-extension
 pip install bokeh
 
 # run locally (button won't work)
-python jsmol.py
+python example.py
 
 # run using bokeh server (button should work)
-bokeh serve jsmol.py --show
+bokeh serve example.py --show
 ```
 
 ## Links
