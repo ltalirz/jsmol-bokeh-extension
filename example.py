@@ -5,7 +5,7 @@ from bokeh.layouts import layout, widgetbox
 
 from jsmol import JSMol
 
-info_source = ColumnDataSource()
+script_source = ColumnDataSource()
 
 info = dict(
     height="100%",
@@ -18,10 +18,10 @@ info = dict(
 )
 
 applet = JSMol(
-    x="x",
     width=600,
     height=600,
-    info_source=info_source,
+    script_source=script_source,
+    info=info,
 )
 
 button = Button(label='Execute')
@@ -29,7 +29,7 @@ inp_script = TextInput(value='background white;')
 
 
 def white():
-    info_source.data = dict(x=[inp_script.value])
+    script_source.data = dict(script=[inp_script.value])
 
 
 button.on_click(white)

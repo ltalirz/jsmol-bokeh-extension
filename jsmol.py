@@ -24,18 +24,8 @@ class JSMol(LayoutDOM):
     #
     #    https://bokeh.pydata.org/en/latest/docs/reference/core.html#bokeh-core-properties
 
-    # This is a Bokeh Dict linked to the JSMol "Info"
-    #info = Dict
-    info_source = Instance(ColumnDataSource)
-
-    # This is a Bokeh String that can be used to directly pass commands to "Jmol.script"
-    #script = String
-
-    # The vis.js library that we are wrapping expects data for x, y, and z.
-    # The data will actually be stored in the ColumnDataSource, but these
-    # properties let us specify the *name* of the column that should be
-    # used for each field.
-
-    x = String
-
+    # This is a Bokeh Dict providing the JSMol "Info"
     info = Dict(String, String)
+
+    # Currently using this to pass a script to be executed
+    script_source = Instance(ColumnDataSource)

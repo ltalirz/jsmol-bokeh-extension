@@ -56,9 +56,9 @@ export class JSMolView extends LayoutDOMView
     @_applet._cover(false)
 
     # Set a listener so that when the Bokeh script input changes it is executed
-    @connect(@model.info_source.change, () =>
-        console.log "Info source chaged"
-        Jmol.script(@_applet, @model.info_source.get_column(@model.x)[0])
+    @connect(@model.script_source.change, () =>
+        console.log "Script source chaged"
+        Jmol.script(@_applet, @model.script_source.get_column('script')[0])
     )
 
   ## This is the callback executed when the Bokeh data has an change. Its basic
@@ -93,8 +93,7 @@ export class JSMol extends LayoutDOM
   # ``p.String`` in the JS implementatin. Where the JS type system is not yet
   # as rich, you can use ``p.Any`` as a "wildcard" property type.
   @define {
-    x:           [ p.String           ]
-    info_source: [ p.Instance         ]
+    script_source: [ p.Instance         ]
     info:        [ p.Any              ]
   }
 
