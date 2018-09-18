@@ -16,9 +16,6 @@ Info =
   serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php"
   use: "HTML5"
   j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s"
-  disableInitialConsole: false
-  allowJavaScript: true
-  console: "jmolApplet0_infodiv"
 
 #INFO =
 #
@@ -72,10 +69,11 @@ export class JSMolView extends LayoutDOMView
 
     # Prevent jmol from directly inserting into the page
     #Jmol.setDocument(0)
-    Jmol.getApplet("jmolApplet0", Info)
+    html = Jmol.getAppletHtml("jmolApplet0", Info)
+    #Jmol.getApplet("jmolApplet0", Info)
      
     Jmol.script(jmolApplet0,"background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download")
-    @el.innerHTML = Jmol.getAppletHtml(jmolApplet0)
+    @el.innerHTML = html
     @_applet = jmolApplet0
 
     # Set a listener so that when the Bokeh data source has a change

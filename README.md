@@ -9,13 +9,15 @@ and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extens
 ## Usage
 
 ```
+git clone git@github.com:ltalirz/jsmol-bokeh-extension.git
+cd jsmol-bokeh-extension
 pip install bokeh
 
 # run locally (button won't work)
 python jsmol.py
 
 # run using bokeh server (button should work)
-bokeh serve jsmol.py
+bokeh serve jsmol.py --show
 ```
 
 ## Links
