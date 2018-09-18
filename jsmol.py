@@ -1,4 +1,4 @@
-from bokeh.core.properties import Instance, String
+from bokeh.core.properties import Instance, String, Dict
 from bokeh.models import ColumnDataSource, LayoutDOM
 
 with open('jsmol.coffee', 'r') as f:
@@ -24,10 +24,6 @@ class JSMol(LayoutDOM):
     #
     #    https://bokeh.pydata.org/en/latest/docs/reference/core.html#bokeh-core-properties
 
-    # This is a Bokeh ColumnDataSource that can be updated in the Bokeh
-    # server by Python code
-    data_source = Instance(ColumnDataSource)
-
     # This is a Bokeh Dict linked to the JSMol "Info"
     #info = Dict
     info_source = Instance(ColumnDataSource)
@@ -39,8 +35,7 @@ class JSMol(LayoutDOM):
     # The data will actually be stored in the ColumnDataSource, but these
     # properties let us specify the *name* of the column that should be
     # used for each field.
+
     x = String
 
-    y = String
-
-    z = String
+    info = Dict(String, String)

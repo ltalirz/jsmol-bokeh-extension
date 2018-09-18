@@ -10,7 +10,7 @@ import {LayoutDOM, LayoutDOMView} from "models/layouts/layout_dom"
 # This defines some default options for JSmol
 # See https://gist.github.com/jhjensen2/4701339 for more details.
 
-Info =
+INFO =
   height: "100%"
   width: "100%"
   serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php"
@@ -43,7 +43,11 @@ export class JSMolView extends LayoutDOMView
     # BokehJS Views create <div> elements by default, accessible as @el.
     # Note: In coffescript, "@foo" is shorthand for "this.foo"
 
-    html = Jmol.getAppletHtml("jmolApplet0", Info)
+    # if no info dict provided, use reasonable default
+    if not @model.info then @model.info = INFO
+
+    # returns html + assigns applet object to "jmolApplet0" variable
+    html = Jmol.getAppletHtml("jmolApplet0", @model.info)
     @_applet = jmolApplet0
     @el.innerHTML = html
 
@@ -51,30 +55,24 @@ export class JSMolView extends LayoutDOMView
     # https://sourceforge.net/p/jsmol/discussion/general/thread/48083aa7/#10a6/bc1c
     @_applet._cover(false)
 
-    # Set a listener so that when the Bokeh data source has a change
-    # event, we can process the new data
-    @connect(@model.data_source.change, () =>
-        @_applet.setData(@get_data())
-    )
-     
     # Set a listener so that when the Bokeh script input changes it is executed
     @connect(@model.info_source.change, () =>
         console.log "Info source chaged"
         Jmol.script(@_applet, @model.info_source.get_column(@model.x)[0])
     )
 
-  # This is the callback executed when the Bokeh data has an change. Its basic
-  # function is to adapt the Bokeh data source to the vis.js DataSet format.
-  get_data: () ->
-    data = new vis.DataSet()
-    source = @model.data_source
-    for i in [0...source.get_length()]
-      data.add({
-        x:     source.get_column(@model.x)[i]
-        y:     source.get_column(@model.y)[i]
-        z:     source.get_column(@model.z)[i]
-      })
-    return data
+  ## This is the callback executed when the Bokeh data has an change. Its basic
+  ## function is to adapt the Bokeh data source to the vis.js DataSet format.
+  #get_data: () ->
+  #  data = new vis.DataSet()
+  #  source = @model.data_source
+  #  for i in [0...source.get_length()]
+  #    data.add({
+  #      x:     source.get_column(@model.x)[i]
+  #      y:     source.get_column(@model.y)[i]
+  #      z:     source.get_column(@model.z)[i]
+  #    })
+  #  return data
 
 # We must also create a corresponding JavaScript BokehJS model subclass to
 # correspond to the python Bokeh model subclass. In this case, since we want
@@ -96,11 +94,7 @@ export class JSMol extends LayoutDOM
   # as rich, you can use ``p.Any`` as a "wildcard" property type.
   @define {
     x:           [ p.String           ]
-    y:           [ p.String           ]
-    z:           [ p.String           ]
-    script:      [ p.String           ]
     info_source: [ p.Instance         ]
-    #info:        [ p.Dict             ]
-    data_source: [ p.Instance         ]
+    info:        [ p.Any              ]
   }
 
