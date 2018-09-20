@@ -56,8 +56,8 @@ export class JSMolView extends LayoutDOMView
     @_applet._cover(false)
 
     # Set a listener so that when the Bokeh script input changes it is executed
-    @connect(@model.script_source.change, () =>
-        console.log "Script source chaged"
+    @connect(@model.script_source.properties.data.change, () =>
+        console.log "Script source changed"
         Jmol.script(@_applet, @model.script_source.get_column('script')[0])
     )
 

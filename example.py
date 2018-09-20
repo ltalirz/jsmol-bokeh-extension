@@ -28,11 +28,11 @@ button = Button(label='Execute')
 inp_script = TextInput(value='background white;')
 
 
-def white():
-    script_source.data = dict(script=[inp_script.value])
+def run_script():
+    script_source.data['script'] = [inp_script.value]
 
 
-button.on_click(white)
+button.on_click(run_script)
 
 ly = layout([applet, widgetbox(button, inp_script)])
 
