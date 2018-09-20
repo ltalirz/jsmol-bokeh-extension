@@ -1,7 +1,9 @@
 from bokeh.core.properties import Instance, String, Dict
 from bokeh.models import ColumnDataSource, LayoutDOM
+from os import path
 
-with open('jsmol.coffee', 'r') as f:
+directory = path.dirname(path.realpath(__file__))
+with open(path.join(directory, 'jsmol.coffee'), 'r') as f:
     JS_CODE = f.read()
 
 
