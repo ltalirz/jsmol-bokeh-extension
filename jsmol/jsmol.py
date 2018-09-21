@@ -26,8 +26,14 @@ class JSMol(LayoutDOM):
     #
     #    https://bokeh.pydata.org/en/latest/docs/reference/core.html#bokeh-core-properties
 
-    # This is a Bokeh Dict providing the JSMol "Info"
+    # This is a Bokeh Dict providing the JSMol "Info variable"
+    # See http://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info
     info = Dict(String, String)
 
     # Currently using this to pass a script to be executed
     script_source = Instance(ColumnDataSource)
+
+    # Path to JSMol javascript file (can be full or relative URL), e.g.
+    # e.g. https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js
+    # or jsmol/JSmol.min.js
+    js_url = String

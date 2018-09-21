@@ -28,7 +28,8 @@ export class JSMolView extends LayoutDOMView
   initialize: (options) ->
     super(options)
 
-    url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js"
+    url = @model.js_url
+    if not url then url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js"
     script = document.createElement('script')
     script.src = url
     script.async = false
@@ -94,6 +95,7 @@ export class JSMol extends LayoutDOM
   # as rich, you can use ``p.Any`` as a "wildcard" property type.
   @define {
     script_source: [ p.Instance         ]
-    info:        [ p.Any              ]
+    info:          [ p.Any              ]
+    js_url:        [ p.String           ]
   }
 
