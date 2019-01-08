@@ -12,6 +12,8 @@ and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extens
 pip install jsmol-bokeh-extension
 ```
 
+Note: This currently needs NodeJS in order to compile the `.coffee` files. See the [bokeh developer documentation](https://bokeh.pydata.org/en/latest/docs/dev_guide/setup.html) on how to set this up.
+
 ## Usage
 
 Below a complete `example.py` demonstrating how to use the jsmol bokeh extension:
