@@ -30,7 +30,9 @@ class JSMol(LayoutDOM):
     # See http://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info
     info = Dict(String, String)
 
-    # Currently using this to pass a script to be executed
+    # Currently (mis)using this to pass a script to be executed since there
+    # doesn't seem to be a better solution (?)
+    # https://groups.google.com/a/continuum.io/forum/#!topic/bokeh/0m17mNMnTys
     script_source = Instance(ColumnDataSource)
 
     # Path to JSMol javascript file (can be full or relative URL), e.g.

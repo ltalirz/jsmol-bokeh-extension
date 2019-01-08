@@ -3,7 +3,7 @@ from bokeh.io import show, curdoc
 from bokeh.models.widgets import Button, TextInput
 from bokeh.layouts import layout, widgetbox
 
-from jsmol import JSMol
+from jsmol_bokeh_extension import JSMol
 
 script_source = ColumnDataSource()
 
@@ -14,7 +14,7 @@ info = dict(
     use="HTML5",
     j2sPath="https://chemapps.stolaf.edu/jmol/jsmol/j2s",
     script=
-    "background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download",
+    "background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol",
 )
 
 applet = JSMol(
