@@ -1,10 +1,11 @@
 from bokeh.core.properties import Instance, String, Dict
 from bokeh.models import ColumnDataSource, LayoutDOM
+from bokeh.util.compiler import TypeScript
 from os import path
 
 directory = path.dirname(path.realpath(__file__))
-with open(path.join(directory, 'jsmol.coffee'), 'r') as f:
-    JS_CODE = f.read()
+with open(path.join(directory, 'jsmol.ts'), 'r') as f:
+    TS_CODE = f.read()
 
 
 # This custom extension model will have a DOM view that should layout-able in
@@ -16,7 +17,7 @@ class JSMol(LayoutDOM):
     # The special class attribute ``__implementation__`` should contain a string
     # of JavaScript (or CoffeeScript) code that implements the JavaScript side
     # of the custom extension model.
-    __implementation__ = JS_CODE
+    __implementation__ = TypeScript(TS_CODE)
 
     # Below are all the "properties" for this model. Bokeh properties are
     # class attributes that define the fields (and their types) that can be
