@@ -5,6 +5,7 @@
 
 // These "require" lines are similar to python "import" statements
 import {LayoutDOM, LayoutDOMView} from "models/layouts/layout_dom"
+import {LayoutItem} from "core/layout"
 import {ColumnDataSource} from "models/sources/column_data_source"
 import * as p from "core/properties"
 
@@ -27,7 +28,7 @@ const INFO = {
 // In this case we will subclass from the existing BokehJS ``LayoutDOMView``
 export class JSMolView extends LayoutDOMView {
   model: JSMol
-  private _applet: string
+  private _applet: any
 
   initialize(): void {
       super.initialize()
@@ -37,10 +38,14 @@ export class JSMolView extends LayoutDOMView {
         url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js"
       }
       const script = document.createElement('script')
+      //script.onreadystatechange = (script.onload = () => this._init())
+      //
+      //    url = @model.js_url
       script.src = url
       script.async = false
-      script.onreadystatechange = (script.onload = () => this._init())
-      document.querySelector("head").appendChild(script)
+      script.onload = () => this._init()
+      //script.onreadystatechange = script.onload
+      document.querySelector("head")!.appendChild(script)
   }
      
   private _init(): void {
@@ -70,7 +75,6 @@ export class JSMolView extends LayoutDOMView {
         Jmol.script(this._applet, this.model.script_source.get_column('script')[0])
     })
   }
-}
 
   //// This is the callback executed when the Bokeh data has an change. Its basic
   //// function is to adapt the Bokeh data source to the vis.js DataSet format.
@@ -85,6 +89,17 @@ export class JSMolView extends LayoutDOMView {
   //    })
   //  return data
   //  }
+
+  get child_models(): LayoutDOM[] {
+    return []
+  }
+
+  _update_layout(): void {
+    this.layout = new LayoutItem()
+    this.layout.set_sizing(this.box_sizing())
+  }
+}
+
 
 // We must also create a corresponding JavaScript BokehJS model subclass to
 // correspond to the python Bokeh model subclass. In this case, since we want
