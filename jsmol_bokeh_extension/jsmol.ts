@@ -1,6 +1,8 @@
 // Model wrapping JSmol.
 //
 // "jsmol.py" contains the python counterpart.
+declare var Jmol: any;
+declare var jmolApplet0: any;
  
 
 // These "require" lines are similar to python "import" statements
@@ -72,7 +74,7 @@ export class JSMolView extends LayoutDOMView {
     // Set a listener so that when the Bokeh script input changes it is executed
     this.connect(this.model.script_source.properties.data.change, () => {
         console.log("Script source changed")
-        Jmol.script(this._applet, this.model.script_source.get_column('script')[0])
+        Jmol.script(this._applet, this.model.script_source.get_column('script')![0])
     })
   }
 
