@@ -12,7 +12,13 @@ and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extens
 pip install jsmol-bokeh-extension
 ```
 
-Note: This currently needs NodeJS in order to compile the `.coffee` files. See the [bokeh developer documentation](https://bokeh.pydata.org/en/latest/docs/dev_guide/setup.html) on how to set this up.
+### Versioning
+
+ * jsmol-bokeh-extension 0.1.x works with bokeh < 1.1 
+   The JavarScript part is written in CoffeeScript and needs NodeJS in order to compile the `.coffee` files. See the [bokeh developer documentation](https://bokeh.pydata.org/en/1.0.4/docs/dev_guide/setup.html) on how to set this up.
+
+ * jsmol-bokeh-extension 0.2 and above works with bokeh >= 1.1
+   The JavaScript component is written in TypeScript.
 
 ## Usage
 
