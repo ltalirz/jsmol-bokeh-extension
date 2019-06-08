@@ -8,10 +8,10 @@
     "classifiers": [
         "Programming Language :: Python"
     ],
-    "version": "0.1.0.1",
+    "version": "0.1.0.2",
     "include_package_data": true,
     "install_requires": [
-        "bokeh >= 0.14"
+        "bokeh >= 0.14, <1.1"
     ],
     "extras_require": {
         "pre-commit": [
