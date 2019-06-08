@@ -36,29 +36,27 @@ export class JSMolView extends LayoutDOMView {
       super.initialize()
   
       var url = this.model.js_url
-      if (!url) {
+      if (! url) {
         url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js"
       }
       const script = document.createElement('script')
-      //script.onreadystatechange = (script.onload = () => this._init())
-      //
-      //    url = @model.js_url
       script.src = url
       script.async = false
       script.onload = () => this._init()
+      //script.onreadystatechange = (script.onload = () => this._init())
       //script.onreadystatechange = script.onload
       document.querySelector("head")!.appendChild(script)
   }
      
   private _init(): void {
-    // Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
-    // already been loaded.
-    // models will be able to specify and load external scripts automatically.
+    // Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js
+    // has already been loaded.
+    // Models will be able to specify and load external scripts automatically.
     //
     // BokehJS Views create <div> elements by default, accessible as this.el.
 
     // if no info dict provided, use reasonable default
-    if (!this.model.info) {
+    if (! this.model.info) {
       this.model.info = INFO
     }
 
@@ -77,20 +75,6 @@ export class JSMolView extends LayoutDOMView {
         Jmol.script(this._applet, this.model.script_source.get_column('script')![0])
     })
   }
-
-  //// This is the callback executed when the Bokeh data has an change. Its basic
-  //// function is to adapt the Bokeh data source to the vis.js DataSet format.
-  //get_data() {
-  //  data = new vis.DataSet()
-  //  source = this.model.data_source
-  //  for i in [0...source.get_length()]
-  //    data.add({
-  //      x:     source.get_column(this.model.x)[i]
-  //      y:     source.get_column(this.model.y)[i]
-  //      z:     source.get_column(this.model.z)[i]
-  //    })
-  //  return data
-  //  }
 
   get child_models(): LayoutDOM[] {
     return []
@@ -136,10 +120,10 @@ export class JSMol extends LayoutDOM {
     this.prototype.default_view = JSMolView
 
 
-    // The @define block adds corresponding "properties" to the JS model. These
+    // The define block adds corresponding "properties" to the JS model. These
     // should basically line up 1-1 with the Python model class. Most property
     // types have counterparts, e.g. ``bokeh.core.properties.String`` will be
-    // ``p.String`` in the JS implementatin. Where the JS type system is not yet
+    // ``p.String`` in the JS implementation. Where the JS type system is not yet
     // as rich, you can use ``p.Any`` as a "wildcard" property type.
     this.define<JSMol.Props>({
       script_source: [ p.Instance         ],

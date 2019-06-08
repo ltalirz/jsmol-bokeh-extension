@@ -4,8 +4,8 @@ This extension lets you visualize atomic structures in [bokeh](https://bokeh.pyd
 
 ## Features
 
- * works both using bokeh and bokeh server
- * see [example.html](https://rawcdn.githack.com/ltalirz/jsmol-bokeh-extension/f0d16dc8f330ab79dc8882c4d1fcfed268050893/example.html): structure displays in standalone html; button will start working in bokeh server
+ * Works both using bokeh and bokeh server
+ * See [example.html](https://rawcdn.githack.com/ltalirz/jsmol-bokeh-extension/f0d16dc8f330ab79dc8882c4d1fcfed268050893/example.html). Structure displays in standalone html, button will start working in bokeh server
 
 ## Prerequisites
 
@@ -16,12 +16,10 @@ Note: As of 2019-06, NodeJS is required to compile the `.ts` / `.coffee` files.
 Once bokeh provides guidelines on [how to bundle compiled javascript](https://github.com/bokeh/bokeh/issues/5345), the NodeJS dependency may be dropped.
 
 ## Installation
-### Versioning
+#### Versioning
 
  * jsmol-bokeh-extension 0.1.x works with bokeh < 1.1 (written in CoffeScript)
-
  * jsmol-bokeh-extension 0.2 and above works with bokeh >= 1.1 (written in TypeScript)
-   The JavaScript component is written in TypeScript.
 
 ```
 pip install jsmol-bokeh-extension
