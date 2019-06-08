@@ -5,7 +5,7 @@ This extension lets you visualize atomic structures in [bokeh](https://bokeh.pyd
 ## Features
 
  * works both using bokeh and bokeh server
- * see [example.html](example.html): structure displays in standalone html; button will start working in bokeh server
+ * see [example.html](https://rawcdn.githack.com/ltalirz/jsmol-bokeh-extension/f0d16dc8f330ab79dc8882c4d1fcfed268050893/example.html): structure displays in standalone html; button will start working in bokeh server
 
 ## Prerequisites
 
