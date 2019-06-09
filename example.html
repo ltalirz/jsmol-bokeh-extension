@@ -98,19 +98,17 @@
                       url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js";
                   }
                   var script = document.createElement('script');
-                  //script.onreadystatechange = (script.onload = () => this._init())
-                  //
-                  //    url = @model.js_url
                   script.src = url;
                   script.async = false;
                   script.onload = function () { return _this._init(); };
+                  //script.onreadystatechange = (script.onload = () => this._init())
                   //script.onreadystatechange = script.onload
                   document.querySelector("head").appendChild(script);
               };
               JSMolView.prototype._init = function () {
-                  // Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
-                  // already been loaded.
-                  // models will be able to specify and load external scripts automatically.
+                  // Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js
+                  // has already been loaded.
+                  // Models will be able to specify and load external scripts automatically.
                   //
                   // BokehJS Views create <div> elements by default, accessible as this.el.
                   var _this = this;
@@ -132,19 +130,6 @@
                   });
               };
               Object.defineProperty(JSMolView.prototype, "child_models", {
-                  //// This is the callback executed when the Bokeh data has an change. Its basic
-                  //// function is to adapt the Bokeh data source to the vis.js DataSet format.
-                  //get_data() {
-                  //  data = new vis.DataSet()
-                  //  source = this.model.data_source
-                  //  for i in [0...source.get_length()]
-                  //    data.add({
-                  //      x:     source.get_column(this.model.x)[i]
-                  //      y:     source.get_column(this.model.y)[i]
-                  //      z:     source.get_column(this.model.z)[i]
-                  //    })
-                  //  return data
-                  //  }
                   get: function () {
                       return [];
                   },
@@ -169,10 +154,10 @@
                   this.prototype.type = "JSMol";
                   // This is usually boilerplate. In some cases there may not be a view.
                   this.prototype.default_view = JSMolView;
-                  // The @define block adds corresponding "properties" to the JS model. These
+                  // The define block adds corresponding "properties" to the JS model. These
                   // should basically line up 1-1 with the Python model class. Most property
                   // types have counterparts, e.g. ``bokeh.core.properties.String`` will be
-                  // ``p.String`` in the JS implementatin. Where the JS type system is not yet
+                  // ``p.String`` in the JS implementation. Where the JS type system is not yet
                   // as rich, you can use ``p.Any`` as a "wildcard" property type.
                   this.define({
                       script_source: [p.Instance],
@@ -205,14 +190,14 @@
           
           
             
-              <div class="bk-root" id="9b15cd78-7680-4833-9cc2-09485e7106b8" data-root-id="1006"></div>
+              <div class="bk-root" id="d96a848c-6ad4-49d2-99ca-482acdbaa317" data-root-id="1006"></div>
             
           
         
       
       
         <script type="application/json" id="1023">
-          {"2e2be575-9d3c-4188-bfa4-6c6003ca612b":{"roots":{"references":[{"attributes":{},"id":"1008","type":"UnionRenderers"},{"attributes":{},"id":"1007","type":"Selection"},{"attributes":{"children":[{"id":"1002","type":"JSMol"},{"id":"1005","type":"WidgetBox"}]},"id":"1006","type":"Column"},{"attributes":{"children":[{"id":"1003","type":"Button"},{"id":"1004","type":"TextInput"}]},"id":"1005","type":"WidgetBox"},{"attributes":{"callback":null,"value":"background white;"},"id":"1004","type":"TextInput"},{"attributes":{"callback":null,"icon":null,"label":"Execute","subscribed_events":["button_click"]},"id":"1003","type":"Button"},{"attributes":{"height":600,"info":{"height":"100%","j2sPath":"https://chemapps.stolaf.edu/jmol/jsmol/j2s","script":"background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol","serverURL":"https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php","use":"HTML5","width":"100%"},"script_source":{"id":"1001","type":"ColumnDataSource"},"width":600},"id":"1002","type":"JSMol"},{"attributes":{"callback":null,"data":{},"selected":{"id":"1007","type":"Selection"},"selection_policy":{"id":"1008","type":"UnionRenderers"}},"id":"1001","type":"ColumnDataSource"}],"root_ids":["1006"]},"title":"Bokeh Application","version":"1.2.0"}}
+          {"a7f85e08-e357-475c-b02f-34a8f3d84473":{"roots":{"references":[{"attributes":{},"id":"1008","type":"UnionRenderers"},{"attributes":{},"id":"1007","type":"Selection"},{"attributes":{"children":[{"id":"1002","type":"JSMol"},{"id":"1005","type":"WidgetBox"}]},"id":"1006","type":"Column"},{"attributes":{"children":[{"id":"1003","type":"Button"},{"id":"1004","type":"TextInput"}]},"id":"1005","type":"WidgetBox"},{"attributes":{"callback":null,"value":"background white;"},"id":"1004","type":"TextInput"},{"attributes":{"callback":null,"icon":null,"label":"Execute","subscribed_events":["button_click"]},"id":"1003","type":"Button"},{"attributes":{"height":600,"info":{"height":"100%","j2sPath":"https://chemapps.stolaf.edu/jmol/jsmol/j2s","script":"background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol","serverURL":"https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php","use":"HTML5","width":"100%"},"script_source":{"id":"1001","type":"ColumnDataSource"},"width":600},"id":"1002","type":"JSMol"},{"attributes":{"callback":null,"data":{},"selected":{"id":"1007","type":"Selection"},"selection_policy":{"id":"1008","type":"UnionRenderers"}},"id":"1001","type":"ColumnDataSource"}],"root_ids":["1006"]},"title":"Bokeh Application","version":"1.2.0"}}
         </script>
         <script type="text/javascript">
           (function() {
@@ -222,7 +207,7 @@
                   function embed_document(root) {
                     
                   var docs_json = document.getElementById('1023').textContent;
-                  var render_items = [{"docid":"2e2be575-9d3c-4188-bfa4-6c6003ca612b","roots":{"1006":"9b15cd78-7680-4833-9cc2-09485e7106b8"}}];
+                  var render_items = [{"docid":"a7f85e08-e357-475c-b02f-34a8f3d84473","roots":{"1006":"d96a848c-6ad4-49d2-99ca-482acdbaa317"}}];
                   root.Bokeh.embed.embed_items(docs_json, render_items);
                 
                   }

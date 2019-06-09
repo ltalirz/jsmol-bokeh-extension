@@ -16,4 +16,4 @@ install:
 - pip install -e .[pre-commit]
 
 script:
-- python example.py
+- sed -i 's/show/save/i' example.py; python example.py
