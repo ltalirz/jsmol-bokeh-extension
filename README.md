@@ -1,18 +1,29 @@
 # JSmol bokeh extension
 
-Custom extension to [bokeh](https://bokeh.pydata.org/en/latest/) for [JSmol](https://sourceforge.net/projects/jsmol/).
+This extension lets you visualize atomic structures in [bokeh](https://bokeh.pydata.org/en/latest/) using [JSmol](https://sourceforge.net/projects/jsmol/).
 
- * Based on the [surface3d example](https://bokeh.pydata.org/en/latest/docs/user_guide/extensions_gallery/wrapping.html)
-and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extensions_gallery/widget.html#userguide-extensions-examples-widget)
- * works both using bokeh and bokeh server
+## Features
+
+ * Works both using bokeh and bokeh server
+ * See [example.html](https://rawcdn.githack.com/ltalirz/jsmol-bokeh-extension/f0d16dc8f330ab79dc8882c4d1fcfed268050893/example.html). Structure displays in standalone html, button will start working in bokeh server
+
+## Prerequisites
+
+ * python 2.7 or later
+ * NodeJS 6.10 or later (see the [bokeh developer documentation](https://bokeh.pydata.org/en/1.0.4/docs/dev_guide/setup.html) for instructions)
+
+Note: As of 2019-06, NodeJS is required to compile the `.ts` / `.coffee` files.
+Once bokeh provides guidelines on [how to bundle compiled javascript](https://github.com/bokeh/bokeh/issues/5345), the NodeJS dependency may be dropped.
 
 ## Installation
+#### Versioning
+
+ * jsmol-bokeh-extension 0.1.x works with bokeh < 1.1 (written in CoffeScript)
+ * jsmol-bokeh-extension 0.2 and above works with bokeh >= 1.1 (written in TypeScript)
 
 ```
 pip install jsmol-bokeh-extension
 ```
-
-Note: This currently needs NodeJS in order to compile the `.coffee` files. See the [bokeh developer documentation](https://bokeh.pydata.org/en/latest/docs/dev_guide/setup.html) on how to set this up.
 
 ## Usage
 
@@ -71,4 +82,6 @@ bokeh serve example.py --show
 
 ## Links
 
- * the [JSmol Info dict](http://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info)
+ * This bokeh extension is based on the [surface3d example](https://bokeh.pydata.org/en/latest/docs/user_guide/extensions_gallery/wrapping.html)
+and [extension widget](https://bokeh.pydata.org/en/latest/docs/user_guide/extensions_gallery/widget.html#userguide-extensions-examples-widget)
+ * See also the [JSmol Info dict](http://wiki.jmol.org/index.php/Jmol_JavaScript_Object/Info)

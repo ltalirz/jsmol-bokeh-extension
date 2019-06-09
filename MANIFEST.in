@@ -1,2 +1,2 @@
 include setup.json
-include jsmol_bokeh_extension/jsmol.coffee
+include jsmol_bokeh_extension/jsmol.ts

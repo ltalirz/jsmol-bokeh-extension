@@ -1,0 +1,255 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css" type="text/css" />
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js"></script>
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+
+        <script type="text/javascript">
+          (function(root, factory) {
+          //  if(typeof exports === 'object' && typeof module === 'object')
+          //    factory(require("Bokeh"));
+          //  else if(typeof define === 'function' && define.amd)
+          //    define(["Bokeh"], factory);
+          //  else if(typeof exports === 'object')
+          //    factory(require("Bokeh"));
+          //  else
+              factory(root["Bokeh"]);
+          })(this, function(Bokeh) {
+            var define;
+            return (function outer(modules, entry) {
+            if (Bokeh != null) {
+              return Bokeh.register_plugin(modules, {}, entry);
+            } else {
+              throw new Error("Cannot find Bokeh. You have to load it prior to loading plugins.");
+            }
+          })
+          ({
+            "custom/main": function(require, module, exports) {
+              var models = {
+                "JSMol": require("custom/jsmol_bokeh_extension.jsmol.js_mol").JSMol
+              };
+              require("base").register_models(models);
+              module.exports = models;
+            },
+            "custom/jsmol_bokeh_extension.jsmol.js_mol": function(require, module, exports) {
+          "use strict";
+          var __extends = (this && this.__extends) || (function () {
+              var extendStatics = function (d, b) {
+                  extendStatics = Object.setPrototypeOf ||
+                      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+                      function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+                  return extendStatics(d, b);
+              };
+              return function (d, b) {
+                  extendStatics(d, b);
+                  function __() { this.constructor = d; }
+                  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+              };
+          })();
+          Object.defineProperty(exports, "__esModule", { value: true });
+          // These "require" lines are similar to python "import" statements
+          var layout_dom_1 = require("models/layouts/layout_dom");
+          var layout_1 = require("core/layout");
+          var p = require("core/properties");
+          // This defines some default options for JSmol
+          // See https://gist.github.com/jhjensen2/4701339 for more details.
+          var INFO = {
+              height: "100%",
+              width: "100%",
+              serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+              use: "HTML5",
+              j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s",
+              script: "background black;load https://dev-www.materialscloud.org/cofs/api/v2/cifs/febd2d02-5690-4a07-9013-505c9a06bc5b/content/download",
+          };
+          // To create custom model extensions that will render on to the HTML canvas
+          // or into the DOM, we must create a View subclass for the model.
+          //
+          // In this case we will subclass from the existing BokehJS ``LayoutDOMView``
+          var JSMolView = /** @class */ (function (_super) {
+              __extends(JSMolView, _super);
+              function JSMolView() {
+                  return _super !== null && _super.apply(this, arguments) || this;
+              }
+              JSMolView.prototype.initialize = function () {
+                  var _this = this;
+                  _super.prototype.initialize.call(this);
+                  var url = this.model.js_url;
+                  if (!url) {
+                      url = "https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js";
+                  }
+                  var script = document.createElement('script');
+                  //script.onreadystatechange = (script.onload = () => this._init())
+                  //
+                  //    url = @model.js_url
+                  script.src = url;
+                  script.async = false;
+                  script.onload = function () { return _this._init(); };
+                  //script.onreadystatechange = script.onload
+                  document.querySelector("head").appendChild(script);
+              };
+              JSMolView.prototype._init = function () {
+                  // Create a new Jmol applet using the JSmol.js API. This assumes JSmol.js has
+                  // already been loaded.
+                  // models will be able to specify and load external scripts automatically.
+                  //
+                  // BokehJS Views create <div> elements by default, accessible as this.el.
+                  var _this = this;
+                  // if no info dict provided, use reasonable default
+                  if (!this.model.info) {
+                      this.model.info = INFO;
+                  }
+                  // returns html + assigns applet object to "jmolApplet0" variable
+                  var html = Jmol.getAppletHtml("jmolApplet0", this.model.info);
+                  this._applet = jmolApplet0;
+                  this.el.innerHTML = html;
+                  // avoid creating a "deferred" applet
+                  // https://sourceforge.net/p/jsmol/discussion/general/thread/48083aa7///10a6/bc1c
+                  this._applet._cover(false);
+                  // Set a listener so that when the Bokeh script input changes it is executed
+                  this.connect(this.model.script_source.properties.data.change, function () {
+                      console.log("Script source changed");
+                      Jmol.script(_this._applet, _this.model.script_source.get_column('script')[0]);
+                  });
+              };
+              Object.defineProperty(JSMolView.prototype, "child_models", {
+                  //// This is the callback executed when the Bokeh data has an change. Its basic
+                  //// function is to adapt the Bokeh data source to the vis.js DataSet format.
+                  //get_data() {
+                  //  data = new vis.DataSet()
+                  //  source = this.model.data_source
+                  //  for i in [0...source.get_length()]
+                  //    data.add({
+                  //      x:     source.get_column(this.model.x)[i]
+                  //      y:     source.get_column(this.model.y)[i]
+                  //      z:     source.get_column(this.model.z)[i]
+                  //    })
+                  //  return data
+                  //  }
+                  get: function () {
+                      return [];
+                  },
+                  enumerable: true,
+                  configurable: true
+              });
+              JSMolView.prototype._update_layout = function () {
+                  this.layout = new layout_1.LayoutItem();
+                  this.layout.set_sizing(this.box_sizing());
+              };
+              return JSMolView;
+          }(layout_dom_1.LayoutDOMView));
+          exports.JSMolView = JSMolView;
+          var JSMol = /** @class */ (function (_super) {
+              __extends(JSMol, _super);
+              function JSMol(attrs) {
+                  return _super.call(this, attrs) || this;
+              }
+              JSMol.initClass = function () {
+                  // The ``type`` class attribute should generally match exactly the name
+                  // of the corresponding Python class.
+                  this.prototype.type = "JSMol";
+                  // This is usually boilerplate. In some cases there may not be a view.
+                  this.prototype.default_view = JSMolView;
+                  // The @define block adds corresponding "properties" to the JS model. These
+                  // should basically line up 1-1 with the Python model class. Most property
+                  // types have counterparts, e.g. ``bokeh.core.properties.String`` will be
+                  // ``p.String`` in the JS implementatin. Where the JS type system is not yet
+                  // as rich, you can use ``p.Any`` as a "wildcard" property type.
+                  this.define({
+                      script_source: [p.Instance],
+                      info: [p.Any],
+                      js_url: [p.String],
+                  });
+              };
+              return JSMol;
+          }(layout_dom_1.LayoutDOM));
+          exports.JSMol = JSMol;
+          JSMol.initClass();
+          
+          }
+          }, "custom/main");
+          ;
+          });
+          
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="9b15cd78-7680-4833-9cc2-09485e7106b8" data-root-id="1006"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1023">
+          {"2e2be575-9d3c-4188-bfa4-6c6003ca612b":{"roots":{"references":[{"attributes":{},"id":"1008","type":"UnionRenderers"},{"attributes":{},"id":"1007","type":"Selection"},{"attributes":{"children":[{"id":"1002","type":"JSMol"},{"id":"1005","type":"WidgetBox"}]},"id":"1006","type":"Column"},{"attributes":{"children":[{"id":"1003","type":"Button"},{"id":"1004","type":"TextInput"}]},"id":"1005","type":"WidgetBox"},{"attributes":{"callback":null,"value":"background white;"},"id":"1004","type":"TextInput"},{"attributes":{"callback":null,"icon":null,"label":"Execute","subscribed_events":["button_click"]},"id":"1003","type":"Button"},{"attributes":{"height":600,"info":{"height":"100%","j2sPath":"https://chemapps.stolaf.edu/jmol/jsmol/j2s","script":"background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol","serverURL":"https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php","use":"HTML5","width":"100%"},"script_source":{"id":"1001","type":"ColumnDataSource"},"width":600},"id":"1002","type":"JSMol"},{"attributes":{"callback":null,"data":{},"selected":{"id":"1007","type":"Selection"},"selection_policy":{"id":"1008","type":"UnionRenderers"}},"id":"1001","type":"ColumnDataSource"}],"root_ids":["1006"]},"title":"Bokeh Application","version":"1.2.0"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1023').textContent;
+                  var render_items = [{"docid":"2e2be575-9d3c-4188-bfa4-6c6003ca612b","roots":{"1006":"9b15cd78-7680-4833-9cc2-09485e7106b8"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
