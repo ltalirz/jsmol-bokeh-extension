@@ -1,0 +1,17 @@
+language: python
+python:
+- "2.7"
+node_js:
+- 7
+
+cache: pip
+
+before_install:
+# Upgrade pip setuptools and wheel
+- pip install -U pip wheel setuptools
+
+install:
+- pip install -e .[pre-commit]
+
+script:
+- python example.py
