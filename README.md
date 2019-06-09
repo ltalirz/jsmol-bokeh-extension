@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ltalirz/jsmol-bokeh-extension.svg?branch=master)](https://travis-ci.org/ltalirz/jsmol-bokeh-extension)
+
 # JSmol bokeh extension
 
 This extension lets you visualize atomic structures in [bokeh](https://bokeh.pydata.org/en/latest/) using [JSmol](https://sourceforge.net/projects/jsmol/).

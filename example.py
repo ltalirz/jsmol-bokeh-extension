@@ -29,12 +29,13 @@ inp_script = TextInput(value='background white;')
 
 
 def run_script():
+    # pylint: disable=unsupported-assignment-operation
     script_source.data['script'] = [inp_script.value]
 
 
 button.on_click(run_script)
 
 ly = layout([applet, widgetbox(button, inp_script)])
+curdoc().add_root(ly)
 
 show(ly)
-curdoc().add_root(ly)
