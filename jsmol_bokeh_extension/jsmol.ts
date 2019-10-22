@@ -60,6 +60,9 @@ export class JSMolView extends LayoutDOMView {
       this.model.info = INFO
     }
 
+    // disable usage tracker - this conflicts with cross-site-scripting policies when served over https
+    delete Jmol._tracker
+
     // returns html + assigns applet object to "jmolApplet0" variable
     var html = Jmol.getAppletHtml("jmolApplet0", this.model.info)
     this._applet = jmolApplet0
