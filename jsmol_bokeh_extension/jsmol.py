@@ -39,4 +39,4 @@ class JSMol(LayoutDOM):
     # Path to JSMol javascript file (can be full or relative URL), e.g.
     # e.g. https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js
     # or jsmol/JSmol.min.js
-    js_url = String
+    js_url = String()
