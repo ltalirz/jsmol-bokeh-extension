@@ -1,10 +1,11 @@
+"""JSMol bokeh extension - Python extension"""
+from os import path
 from bokeh.core.properties import Instance, String, Dict
 from bokeh.models import ColumnDataSource, LayoutDOM
 from bokeh.util.compiler import TypeScript
-from os import path
 
 directory = path.dirname(path.realpath(__file__))
-with open(path.join(directory, 'jsmol.ts'), 'r') as f:
+with open(path.join(directory, 'jsmol.ts'), 'r', encoding='utf8') as f:
     TS_CODE = f.read()
 
 
@@ -12,7 +13,8 @@ with open(path.join(directory, 'jsmol.ts'), 'r') as f:
 # Bokeh layouts, so use ``LayoutDOM`` as the base class. If you wanted to create
 # a custom tool, you could inherit from ``Tool``, or from ``Glyph`` if you
 # wanted to create a custom glyph, etc.
-class JSMol(LayoutDOM):
+class JSMol(LayoutDOM):  # pylint: disable=too-few-public-methods
+    """Extension for visualizing atomic structues via JSMol."""
 
     # The special class attribute ``__implementation__`` should contain a string
     # of JavaScript (or CoffeeScript) code that implements the JavaScript side

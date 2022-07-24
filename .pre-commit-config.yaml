@@ -1,20 +1,37 @@
 # Install pre-commit hooks via
 # pre-commit install
 
-- repo: local
+# # Install pre-commit hooks via
+# pre-commit install
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.2.3
+  hooks:
+  - id: trailing-whitespace
+    types: [python]
+  - id: double-quote-string-fixer
+    types: [python]
+
+
+- repo: https://github.com/pre-commit/mirrors-yapf
+  rev: v0.30.0
   hooks:
   # yapf = yet another python formatter
   - id: yapf
     name: yapf
-    entry: yapf
-    language: system
     types: [python]
-    args: ["-i"]
+    exclude: >
+      (?x)^(
+          docs/.*|
+      )$
+    args: ['-i']
+
+- repo: local
+  hooks:
 
   # prospector: collection of linters
-  - id: prospector
+  - id: pylint
+    name: pylint
+    entry: pylint
+    types: [python]
     language: system
-    types: [file, python]
-    name: prospector
-    description: "This hook runs Prospector: https://github.com/landscapeio/prospector"
-    entry: prospector
