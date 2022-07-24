@@ -1,3 +1,4 @@
+"""Exampel of using jsmol bokeh widget."""
 from bokeh.models import ColumnDataSource
 from bokeh.io import show, curdoc
 from bokeh.models.widgets import Button, TextInput
@@ -29,6 +30,7 @@ inp_script = TextInput(value='background white;')
 
 
 def run_script():
+    """Run JSMol script specified by user."""
     # pylint: disable=unsupported-assignment-operation
     script_source.data['script'] = [inp_script.value]
 

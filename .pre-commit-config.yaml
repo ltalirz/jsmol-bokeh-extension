@@ -26,3 +26,12 @@
       )$
     args: ['-i']
 
+- repo: local
+  hooks:
+
+  # prospector: collection of linters
+  - id: pylint
+    name: pylint
+    entry: pylint
+    types: [python]
+    language: system
