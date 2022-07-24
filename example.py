@@ -8,13 +8,13 @@ from jsmol_bokeh_extension import JSMol
 script_source = ColumnDataSource()
 
 info = dict(
-    height="100%",
-    width="100%",
-    serverURL="https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-    use="HTML5",
-    j2sPath="https://chemapps.stolaf.edu/jmol/jsmol/j2s",
+    height='100%',
+    width='100%',
+    serverURL='https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php',
+    use='HTML5',
+    j2sPath='https://chemapps.stolaf.edu/jmol/jsmol/j2s',
     script=
-    "background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol",
+    'background black;load https://chemapps.stolaf.edu/jmol/jsmol-2013-09-18/data/caffeine.mol',
 )
 
 applet = JSMol(
